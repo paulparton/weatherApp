@@ -13,28 +13,14 @@
 
 
 		if($routeParams.location){
+
 			$scope.location = $routeParams.location || undefined;
+
 			$scope.weatherDate = $routeParams.day || undefined;
 
 			loadWeather();
+
 		}
-
-		$scope.changeDate = function(newDate){
-	
-			$location.path("/" + $scope.location + "/" + newDate);
-			
-		}
-
-		$scope.clearDate = function(){
-			$location.path("/" + $scope.location);
-		};
-
-		$scope.open = function($event) {
-			$event.preventDefault();
-			$event.stopPropagation();
-
-			$scope.opened = true;
-		};
 
 		$scope.$watch('weatherDateSelector', function(newVer, oldVer){
 
@@ -44,15 +30,54 @@
 
 		});
 
-		$scope.$watchGroup(['location','weatherDate'], function(newVer, oldVer){
+		$scope.$watch('weatherDate', function(newVer, oldVer){
+			
+			if(oldVer === newVer){return false;}
 
 			loadWeather();
 			
 		});
 
+		$scope.changeLocation = function(newLocation){
+
+			updateParams(newLocation, $scope.weatherDate || undefined);
+
+		}
+
+		$scope.changeDate = function(newDate){
+	
+			updateParams($scope.location, newDate);
+			
+		}
+
+		$scope.clearDate = function(){
+
+			$location.path("/" + $scope.location);
+
+		};
+
+		$scope.open = function($event) {
+
+			$event.preventDefault();
+			$event.stopPropagation();
+
+			$scope.opened = true;
+		};
+
+		function updateParams(location, date){
+			
+			var path = '/' + location;
+
+			if(date){
+				path += '/' + date;
+			}
+
+			$location.path(path);
+
+		}
+
 		function loadWeather(){
 
-			var reportDate = $scope.weatherDate;
 
 			$scope.displayDate = $scope.weatherDate;
 
@@ -62,17 +87,20 @@
 
 			var params = {
 				location: $scope.location,
-				date: reportDate || undefined
+				date: $scope.weatherDate || undefined
 			};
 
 			$scope.loading = true;
+
 			forecast.getForecast(params, function(err, response){
 
 				$scope.loading = false;
+
 				if(err){
 					$scope.error = err;
 					return false;
 				}
+
 				$scope.location = response.locationText;
 				$scope.forecast = response;
 
@@ -81,8 +109,6 @@
 		}
 
 	}
-
-
 
 	function forecastFactory($http){
 
@@ -102,21 +128,18 @@
 
 			$http.get(url)
 				.success(function(result){
-					console.log('SUCCESS!', result);
 
 					return callback(null,result);
 
 				})
 				.error(function(err){
-					console.log('FAIL!', err)
+	
 					return callback(err);
-				});
 
-			
+				});
 
 		}
 
 	}
-
 
 }());

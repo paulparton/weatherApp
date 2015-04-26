@@ -13,6 +13,7 @@ module.exports = function(app){
 	app.use("/components", express.static(__dirname + "/client/components"));
 	app.use("/css", express.static(__dirname + "/client/css"));
 	app.use("/app", express.static(__dirname + "/client/app"));
+	
 	app.use("/*", express.static(__dirname + "/client/"));
 
     //Other routes passed to Angular front end
