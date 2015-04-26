@@ -7,21 +7,26 @@ module.exports = {
 
 };
 
+//Using wither a location, or a location and a date return a weather report.
+//Supports node callback (err first) or a promise
 function getForecast(location, date, callback){
 	
+	var deferred = Q.defer(),
+		baseUrl,
+		weatherUrl;
+
+	//Check if no date has been provided and adjust param names
 	if (typeof date === 'function') {
 		callback = date;
 		date = undefined;
 	}
-
-	var deferred = Q.defer();
 	
 	if(!location || !location.lat || !location.lng){
 		deferred.reject(new Error('error, a location is required'));
 	}
 
-	var baseUrl = 'https://api.forecast.io/forecast/220e329b1bbdff1eba9f5998fc5b5b4c',
-		weatherUrl = baseUrl + '/' + location.lat + ',' + location.lng;
+	baseUrl = 'https://api.forecast.io/forecast/220e329b1bbdff1eba9f5998fc5b5b4c';
+	weatherUrl = baseUrl + '/' + location.lat + ',' + location.lng;
 		
 	if(date){
 		weatherUrl += ',' + date;

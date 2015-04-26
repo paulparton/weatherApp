@@ -1,12 +1,7 @@
-(function(){
+'use strict';
 
-    'use strict';
+var express = require('express'),
+    app = express(),
+    routes = require('./routes')(app);
 
-    var express = require('express'),
-        app = express(),
-        routes = require('./routes')(app);
-
-    app.listen('1337');
-
-
-}());
+app.listen('1337');
