@@ -1,0 +1,17 @@
+{
+  "name": "weatherApp",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.12.3",
+    "geocoder": "^0.2.2",
+    "q": "^1.2.0",
+    "request": "^2.55.0"
+  },
+  "devDependencies": {}
+}

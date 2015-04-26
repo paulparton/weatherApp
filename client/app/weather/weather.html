@@ -1,0 +1,108 @@
+<h2></h2>
+<p>{{weatherMessage}}</p>
+
+<div class="row">
+	<div class="col-md-12">
+		<h3>Search a location for a weather report</h3>
+		<input 
+			type="text" 
+			pp-location-autocomplete 
+			location="location" 
+			ng-model="location" 
+			class="form-control" 
+			placeholder="Enter a location"/>
+	</div>
+</div>
+
+<br />
+
+<div class="row" ng-show="forecast">
+	<div class="col-md-6">
+		<h4>Specify a date</h4>
+		<p>
+			<span ng-if="weatherDate">{{displayDate}}</span>
+	      	<span ng-if="!weatherDate">No date specified</span></p>
+	    	<p class="input-group">
+	      		<input 
+	      			type="text" 
+	      			class="form-control" 
+	      			datepicker-popup="dd MMM yyyy" 
+	      			ng-model="weatherDateSelector" 
+	      			is-open="opened" 
+	      			close-text="Close" 
+	      			style="display:none;"/>
+
+	      		<div class="btn-group">
+	        
+					<button 
+						type="button" 
+						class="btn btn-default dropdown-toggle" 
+						data-toggle="dropdown" 
+						aria-expanded="false">
+						Go to day <span class="caret"></span>
+					</button>
+	        		<button 
+	        			type="button" 
+	        			class="btn btn-default" 
+	        			ng-click="open($event)">
+	        				<i class="glyphicon glyphicon-calendar"></i>
+	        				Open calendar
+	        		</button>
+	                <button 
+					  	type="button" 
+					  	class="btn btn-default" 
+					  	ng-click="clearDate()">
+					    	Clear date
+					</button>
+
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="#" ng-click="changeDate('today')">Today</a></li>
+						<li><a href="#" ng-click="changeDate('tomorrow')">Tomorrow</a></li>
+						<li class="divider"></li>
+						<li><a href="#" ng-click="changeDate('sunday')">Sunday</a></li>
+						<li><a href="#" ng-click="changeDate('monday')">Monday</a></li>
+						<li><a href="#" ng-click="changeDate('tuesday')">Tuesday</a></li>
+						<li><a href="#" ng-click="changeDate('wednesday')">Wednesday</a></li>
+						<li><a href="#" ng-click="changeDate('thursday')">Thursday</a></li>
+						<li><a href="#" ng-click="changeDate('friday')">Friday</a></li>
+						<li><a href="#" ng-click="changeDate('saturday')">Saturday</a></li>
+					</ul>
+
+				</div>
+
+	        <p>
+	      
+	    </p>
+
+	</div>
+
+</div>
+
+<br /><br/>
+
+<h1 ng-if="loading">Loading weather...</h1>
+
+<div ng-show="forecast && !loading" class="row">
+
+	<div class="col-md-2" ng-repeat="day in forecast.daily.data">
+
+		<div class="panel panel-default panel-success" ng-if="$index <6">
+
+	  		<div class="panel-heading">
+
+	    		<div class="panel-title">
+	    			<i style="font-weight:bold" class="wi wi-{{day.icon}}"></i>{{day.time*1000 | date:'EEE dd MMM'}}
+	    		</div>
+
+	  		</div>
+
+			<div class="panel-body">
+				<strong>{{day.apparentTemperatureMin | celcius}}°</strong> - <strong>{{day.apparentTemperatureMax | celcius}}°</strong>
+				<br />{{day.summary}}
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
