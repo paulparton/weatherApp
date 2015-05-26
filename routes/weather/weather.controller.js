@@ -50,7 +50,7 @@ function forecastByLocation(req, res){
 
 }
 
-//Returna weather report by location and date
+//Return a weather report by location and date
 function forecastByLocationAndDate(req, res){
 	
 	var date = parseDate(req.params.date),

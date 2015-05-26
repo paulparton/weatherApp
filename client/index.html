@@ -10,17 +10,21 @@
 		<!--Scripts-->
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
         <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    	<script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-    	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    	  <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    	  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
         <!--Application scripts-->
+        <script src="app/main.js"></script>
         <script src="components/ppLocationAutocomplete.js"></script>
         <script src="components/ppToCelcius.js"></script>
+        <script src="app/weather/weather.factory.js"></script>
+        <script src="app/weather/weather.controller.js"></script>
         <script src="app/weather/weather.js"></script>
-        <script src="app/main.js"></script>
+            
+        
     
 
 	</head>
@@ -43,9 +47,8 @@
       </div>
     </nav>
 
-    <div class="container" ng-view>
+    <div class="container" ui-view="">
 
-  
-    </div> <!-- /container -->
+    </div>
 	</body>
 </html>

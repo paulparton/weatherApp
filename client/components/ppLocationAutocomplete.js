@@ -8,7 +8,8 @@
 
     var directive = {
       scope:{
-        location:'=location'
+        location:'=location',
+        onChange:'&'
       },
       link: linker
     }
@@ -27,7 +28,8 @@
     function loadPlaces(){
       
       var place = autocomplete.getPlace();
-      console.log(place);
+      
+      
       if (!place.geometry) {
         return;
       }
@@ -40,17 +42,23 @@
           (place.address_components[1] && place.address_components[1].short_name || ''),
           (place.address_components[2] && place.address_components[2].short_name || '')
         ].join(' ');
+        
+        console.log("new location ", address);
+        
+        scope.onChange({location: address});
+        
+        scope.$apply(function(){
+          
+          //scope.location = address;
+          //{
+            //lat:place.geometry.location.lat(),
+            //lng:place.geometry.location.lng() 
+          //}
+        });
+              
       }
-      
-      console.log(address);
 
-      scope.$apply(function(){
-        scope.location = address;
-        //{
-          //lat:place.geometry.location.lat(),
-          //lng:place.geometry.location.lng() 
-        //}
-      });
+
       
 
     }
