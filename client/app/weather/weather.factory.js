@@ -10,33 +10,24 @@
 
 	function forecastFactory($http){
 		
+		//Public api
 		var factory = {
 			getForecast: getForecast
 		}
 
 		return factory;
-
+		
+		//Factory method
 		function getForecast(params, callback){
 			
-			
-			
+			//Build the web service url from the params provided
 			var url = '/api/weather/' + JSON.stringify(params.location);
 
 			if(params.date){
 				url += '/' + params.date;
 			}
 
-			$http.get(url)
-				.success(function(result){
-
-					return callback(null,result);
-
-				})
-				.error(function(err){
-	
-					return callback(err);
-
-				});
+			return $http.get(url);
 
 		}
 

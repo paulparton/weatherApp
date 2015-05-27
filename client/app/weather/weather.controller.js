@@ -1,8 +1,6 @@
-
 (function(){
-	'use strict';
 	
-	console.log('insude controller module');
+	'use strict';
 	
 	angular.module('weatherman')
 		.controller('ForecastController', forecastController);
@@ -11,13 +9,6 @@
 	
 	function forecastController($scope, $stateParams, $state, $location, $filter, forecast){
 		
-		//Check for initial params to load weather
-		if($stateParams.location){
-			$scope.location = $stateParams.location || undefined;
-			$scope.weatherDate = $stateParams.day || undefined;
-			loadWeather();
-		}
-	
 		//If the weather date selector changes
 		$scope.$watch('weatherDateSelector', function(newVer, oldVer){
 			
@@ -34,9 +25,7 @@
 			
 			//Prevent run on load
 			if(oldVer === newVer){return false;}
-
-			//loadWeather();
-			//updateParams($scope.location, $scope.weatherDate);
+			
 			$scope.changeDate($scope.weatherDate);
 			
 		});
@@ -44,21 +33,21 @@
 		//Update the location of the forecast
 		$scope.changeLocation = function(newLocation){
 
-			updateParams(newLocation, $scope.weatherDate || undefined);
+			$scope.updateParams(newLocation, $scope.weatherDate || undefined);
 
 		}
 		
 		//Update the date of the forecast
 		$scope.changeDate = function(newDate){
 
-			updateParams($scope.location, newDate);
+			$scope.updateParams($scope.location, newDate);
 			
 		}
 	
 		//Clear the date of the forecast
 		$scope.clearDate = function(){
 
-			updateParams($scope.location);
+			$scope.updateParams($scope.location);
 
 		};
 		
@@ -70,7 +59,7 @@
 		};
 		
 		//Update the forecast parameters
-		function updateParams(location, date){
+		$scope.updateParams = function (location, date){
 			
 			var newParams = {
 				location: location
@@ -83,40 +72,56 @@
 				$state.go('byLocation', newParams);
 			}
 
-		}
+		};
 	
 		//Load a weather forecast from the web service
-		function loadWeather(){
-
-			$scope.displayDate = $scope.weatherDate;
-
-			if ($scope.weatherDate && !isNaN($scope.weatherDate)){
-				$scope.displayDate = $filter('date')($scope.displayDate * 1000, 'dd MMM yyyy');
-			}			
-
+		$scope.loadWeather = function (){		
+							
+			//Prepare params for the web service
 			var params = {
 				location: $scope.location,
 				date: $scope.weatherDate || undefined
 			};
-
+			
+			//Display the loading message
 			$scope.loading = true;
 			
-			forecast.getForecast(params, function(err, response){
+			//Load weather data from the web service
+			forecast.getForecast(params)
+				.success(function(result){
 
-				$scope.loading = false;
+					//Hide the loading message
+					$scope.loading = false;
+					
+					//Store the formatted location name
+					$scope.location = result.locationText;
+				
+					//Store the full response object
+					$scope.forecast = result;
 
-				if(err){
+				})
+				.error(function(err){
+					
+					//Hide the loading message
+					$scope.loading = false;
+					
 					$scope.error = err;
-					return false;
-				}
 
-				$scope.location = response.locationText;
-				$scope.forecast = response;
+				});
 
-			});
-
-		}
-
+		};
+		
+		$scope.init = function(){
+			//Check for initial params to load weather
+			if($stateParams.location){
+				$scope.location = $stateParams.location || undefined;
+				$scope.weatherDate = $stateParams.day || undefined;
+				$scope.loadWeather();
+			}
+		};
+		
+		$scope.init();
+		
 	}	
 	
 }());
