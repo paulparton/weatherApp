@@ -22,5 +22,3 @@ To view a HTML version of the data use the built in Angular client  e.g.
 	localhost:1337/weather/sydney
 	localhost:1337/weather/sydney/tomorrow
 	localhost:1337/weather/sydney/[unix timestamp]
-
-
