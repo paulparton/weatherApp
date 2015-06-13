@@ -1,1 +1,9 @@
 body { padding-top: 50px; }
+
+.weather-summary {
+	padding-top:5px;
+}
+
+.weather-container {
+	 height:100px;
+}

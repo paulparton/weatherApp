@@ -114,9 +114,11 @@
 
 	  		</div>
 
-			<div class="panel-body">
+			<div class="panel-body weather-container">
 				<strong>{{day.apparentTemperatureMin | celcius}}°</strong> - <strong>{{day.apparentTemperatureMax | celcius}}°</strong>
-				<br />{{day.summary}}
+				<p>
+					<small class="weather-summary">{{day.summary}}</small>
+				</p>
 			</div>
 
 		</div>
